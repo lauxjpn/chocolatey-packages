@@ -1,6 +1,7 @@
 import-module au
 
-$releases = 'https://dev.mysql.com/downloads/mysql/'
+$releases = 'https://github.com/mysql/mysql-server/tags'
+$mainlineVersionPrefix = '8.0.'
 
 function global:au_SearchReplace {
     @{
@@ -15,11 +16,11 @@ function global:au_SearchReplace {
 function global:au_GetLatest {
     $download_page = Invoke-WebRequest -Uri $releases
 
-    $version = ($download_page.ParsedHtml.getElementsByTagName('h1') | Where-Object innerhtml -match "^MySQL Community Server ").innerhtml -replace "^MySQL Community Server "
+    $version = $download_page.Links.Href | Where-Object { $_ -match '^/mysql/mysql-server/releases/tag/mysql-(\d+\.\d+\.\d+)$' -and $Matches[1].StartsWith($mainlineVersionPrefix) } | Select-Object -First 1
     $versiondata = Get-Version($version)
     $version = $versiondata.toString()
 
-    $url = 'https://dev.mysql.com/get/Downloads/MySQL-' + $versiondata.toString(2) + '/mysql-' + $version + '-winx64.zip'
+    $url = 'https://cdn.mysql.com/Downloads/MySQL-' + $versiondata.toString(2) + '/mysql-' + $version + '-winx64.zip'
     $Latest = @{ URL64 = $url; Version = $version }
     return $Latest
 }
