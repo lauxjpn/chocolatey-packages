@@ -2,7 +2,7 @@
 
 $toolsDir     = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 $url          = 'https://download.cdn.viber.com/desktop/windows/ViberSetup.exe'
-$checksum     = 'C237902A7A5454CAE6D52BBC5DF0C19E3A7CD3E89C78737158AD30E8B1DBEC18'
+$checksum     = '06A74548B3279B2A329139AB3E3D6D3EDD52CEB291918DC0DB57DDFBE1693503'
 $checksumType = 'sha256'
 $packageArgs = @{
   packageName    = $env:ChocolateyPackageName
@@ -16,13 +16,4 @@ $packageArgs = @{
   destination   = $toolsDir
 }
 
-# silent install requires AutoHotKey
-$ahkFile = Join-Path $toolsDir 'chocolateyInstall.ahk'
-$ahkEXE = Get-ChildItem "$env:ChocolateyInstall\lib\autohotkey.portable" -Recurse -filter autohotkey.exe
-$ahkProc = Start-Process -FilePath $ahkEXE.FullName -ArgumentList "$ahkFile" -PassThru
-Write-Debug "AutoHotKey start time:`t$($ahkProc.StartTime.ToShortTimeString())"
-Write-Debug "Process ID:`t$($ahkProc.Id)"
-
 Install-ChocolateyPackage @packageArgs
-
-if (Get-Process -id $ahkProc.Id -ErrorAction SilentlyContinue) {Stop-Process -id $ahkProc.Id}

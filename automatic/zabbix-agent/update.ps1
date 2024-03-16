@@ -1,11 +1,11 @@
-﻿Import-Module au
+﻿Import-Module Chocolatey-AU
 
 $releases = 'https://cdn.zabbix.com/zabbix/binaries/stable/'
 
 function global:au_SearchReplace {
   @{
     ".\tools\chocolateyInstall.ps1" = @{
-      "(?i)(version\s*=\s*)('.*')"        = "`$1'$($Latest.Version)'"
+      "(?i)(version\s*=\s*)('.*')"        = "`$1'$($Latest.ChocoVersion)'"
       "(?i)(^\s*file\s*=\s*`"[$]toolsDir\\).*" = "`${1}$($Latest.FileName32)`""
       "(?i)(^\s*file64\s*=\s*`"[$]toolsDir\\).*" = "`${1}$($Latest.FileName64)`""
     }
@@ -27,9 +27,10 @@ function CreateStream {
   param($url32bit, $url64bit, $version)
 
   $Result = @{
-    Version = $version
-    URL32   = $url32bit
-    URL64   = $url64bit
+    ChocoVersion = $version
+    Version      = $version
+    URL32        = $url32bit
+    URL64        = $url64bit
   }
 
   return $Result
@@ -46,12 +47,11 @@ function global:au_GetLatest {
     try {
       $majVersionFolder = $_.href
       $version_download_page = Invoke-WebRequest -UseBasicParsing -Uri "$releases$majVersionFolder"
-      $versionObject = $version_download_page.Links | Select-Object -Last 1 -Skip 1
-      $versionFolder = $versionObject.href
-      $version = Get-Version $versionFolder
+      $majVersion = Get-Version $majVersionFolder
+      $version = $version_download_page.Links | Where-Object -Property href -Match $majVersion|  Select-Object -ExpandProperty href | ForEach-Object{ Get-Version ($_) } | Sort-Object | Select-Object -Last 1
 
-      $url32Bit = "${releases}${majVersionFolder}${versionFolder}zabbix_agent-${version}-windows-i386-openssl.zip"
-      $url64Bit = "${releases}${majVersionFolder}${versionFolder}zabbix_agent-${version}-windows-amd64-openssl.zip"
+      $url32Bit = "${releases}${majVersionFolder}${version}/zabbix_agent-${version}-windows-i386-openssl.zip"
+      $url64Bit = "${releases}${majVersionFolder}${version}/zabbix_agent-${version}-windows-amd64-openssl.zip"
 
       $response32 = Invoke-WebRequest -Uri $url32Bit -UseBasicParsing -Method Head
       $response64 = Invoke-WebRequest -Uri $url64Bit -UseBasicParsing -Method Head

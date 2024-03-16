@@ -1,4 +1,4 @@
-Import-Module au
+Import-Module Chocolatey-AU
 
 $releases = 'https://www.veeam.com/download-version.html'
 $releaseNotesFeed = 'https://www.veeam.com/services/veeam/technical-documents?resourceType=resourcetype:techdoc/releasenotes&productId=49'
@@ -32,8 +32,9 @@ function global:au_GetLatest {
 
     $isoVersion = $version
 
-    if($version -eq "7.0.0.12777") {
-      $isoVersion = "7.0.0.12777_20230123"
+    if($version -eq "8.0.0.16877") {
+      $isoVersion = "8.0.0.16877_20231130"
+      $version = "8.0.0.20231130"
     }
 
     $version = Get-Version ($version)

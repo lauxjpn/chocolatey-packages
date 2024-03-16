@@ -59,6 +59,8 @@
         url: /packages/dymoconnect.html
       - page: "DYMO Label"
         url: /packages/dymolabel.html
+      - page: "EFSDump"
+        url: /packages/efsdump.html
       - page: "Elasticsearch"
         url: /packages/elasticsearch.html
       - page: "Etcher"
@@ -179,6 +181,12 @@
         url: /packages/orca.html
       - page: "OrientDB (Portable)"
         url: /packages/orientdb.html
+      - page: "Plexamp"
+        url: /packages/plexamp.html
+      - page: "Plex Home Theater"
+        url: /packages/plexhometheater.html
+      - page: "Plex Media Player for Windows"
+        url: /packages/plexmediaplayer.html
       - page: "Plex Media Server"
         url: /packages/plexmediaserver.html
       - page: "PowerToys"
@@ -189,8 +197,6 @@
         url: /packages/psi.install.html
       - page: "Psi (Portable)"
         url: /packages/psi.portable.html
-      - page: "Pulumi (Portable)"
-        url: /packages/pulumi.html
       - page: "JetBrains Pycharm Professional"
         url: /packages/pycharm.html
       - page: "JetBrains PyCharm (Install)"
@@ -199,6 +205,8 @@
         url: /packages/pycharmedu.html
       - page: "QuickPar"
         url: /packages/QuickPar.html
+      - page: "RegDelNull"
+        url: /packages/regdelnull.html
       - page: "Rocrail"
         url: /packages/rocrail.html
       - page: "Samsung Magician"
@@ -235,6 +243,8 @@
         url: /packages/superputty.portable.html
       - page: "Swift for Windows"
         url: /packages/swiftforwindows.html
+      - page: "TCPVcon"
+        url: /packages/tcpvcon.html
       - page: "TeXstudio"
         url: /packages/texstudio.html
       - page: "TeXstudio (Install)"

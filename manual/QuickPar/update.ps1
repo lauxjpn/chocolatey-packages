@@ -1,4 +1,4 @@
-import-module au
+Import-Module Chocolatey-AU
 
 $releases = 'http://dev.mysql.com/downloads/tools/workbench/'
 
@@ -15,7 +15,7 @@ function global:au_SearchReplace {
 function global:au_GetLatest {
     $download_page = Invoke-WebRequest -Uri $releases
     
-    $version = ($download_page.ParsedHtml.getElementsByTagName('h1') | ? innerhtml -match "^MySQL Workbench").innerhtml -replace "^MySQL Workbench "
+    $version = ($download_page.ParsedHtml.getElementsByTagName('h1') | Where-Object innerhtml -match "^MySQL Workbench").innerhtml -replace "^MySQL Workbench "
     $version = $version.Trim()
 
     $url = 'https://cdn.mysql.com/Downloads/MySQLGUITools/mysql-workbench-community-' + $version + '-winx64.msi'

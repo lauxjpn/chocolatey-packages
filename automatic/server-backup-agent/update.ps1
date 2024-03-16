@@ -1,4 +1,4 @@
-Import-Module AU
+Import-Module Chocolatey-AU
 Import-Module "$env:ChocolateyInstall\helpers\chocolateyInstaller.psm1"
 Import-Module "$PSScriptRoot\..\..\scripts/au_extensions.psm1"
 
@@ -21,7 +21,7 @@ function GetResultInformation([string]$url32, [string]$url64) {
   Get-WebFile $url32 $dest | Out-Null
   $checksumType = 'sha256'
   $version = (Get-MsiInformation -Path $dest).ProductVersion
-  $checksum32 = Get-FileHash $dest -Algorithm $checksumType | % Hash
+  $checksum32 = Get-FileHash $dest -Algorithm $checksumType | ForEach-Object Hash
   Remove-Item -force $dest -ErrorAction SilentlyContinue
 
   return @{

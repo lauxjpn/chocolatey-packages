@@ -1,4 +1,4 @@
-Import-Module au
+Import-Module Chocolatey-AU
 
 $releases = 'https://www.veeam.com/download-version.html'
 $releaseNotesFeed = 'https://www.veeam.com/services/veeam/technical-documents?resourceType=resourcetype:techdoc/releasenotes&productId=41'
@@ -10,6 +10,7 @@ function global:au_SearchReplace {
       "(^[$]url\s*=\s*)('.*')"          = "`$1'$($Latest.URL32)'"
       "(^[$]checksum\s*=\s*)('.*')"     = "`$1'$($Latest.Checksum32)'"
       "(^[$]checksumType\s*=\s*)('.*')" = "`$1'$($Latest.ChecksumType32)'"
+      "(?i)(^[$]version\s*=\s*)'.*'"        = "`${1}'$($Latest.RemoteVersion)'"
     }
     "$($Latest.PackageName).nuspec" = @{
       "(?i)(^\s*\<releaseNotes\>).*(\<\/releaseNotes\>)" = "`${1}$($Latest.ReleaseNotes)`${2}"
@@ -43,6 +44,7 @@ function global:au_GetLatest {
         URL32 = $url
         Version = $version
         ReleaseNotes = $ReleaseNotes
+        RemoteVersion  = $version
     }
 }
 
